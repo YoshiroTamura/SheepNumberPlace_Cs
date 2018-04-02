@@ -111,7 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Form1.vb" />
-    <Content Include="FormMain.vb" />
     <None Include="app.config" />
     <None Include="globalexpoDataSet.xsc">
       <DependentUpon>globalexpoDataSet.xsd</DependentUpon>

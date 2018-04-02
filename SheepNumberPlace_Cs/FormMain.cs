@@ -51,18 +51,18 @@ namespace SheepNumberPlace_Cs
         private Coordinate[] enterHistoryB;
         private int currentHistoryNo;
         
-        private SolvingTechnique UsedTechnique; 
+        private SolvingTechnique UsedTechnique;
         private ToolboxStatus[] ToolboxInfo;
 
         struct SolvingTechnique
         {
-            bool NakedPairTriple;
-            bool HiddenPairTriple;
-            bool SimpleColors;
-            bool XWing;
-            bool XYWing;
-            bool SwordFish;
-            bool MultiColors;
+            public bool NakedPairTriple;
+            public bool HiddenPairTriple;
+            public bool SimpleColors;
+            public bool XWing;
+            public bool XYWing;
+            public bool SwordFish;
+            public bool MultiColors;
         }
 
         struct ToolboxStatus
@@ -1662,6 +1662,40 @@ namespace SheepNumberPlace_Cs
 
         }
 
+        //'
+        //'  各マスの候補Noを適正化
+        //'
+        private void Adjust_ProspectNo(ref SudokuGrid[,] tmpNumberGrid)
+        {
+
+            int i, j;
+
+            for (j = 1; j <= GridCount; j++)
+            {
+                for (i = 1; i <= GridCount; i++)
+                {
+                    tmpNumberGrid[i, j].Reset_ProspectNo();
+                }
+            }
+
+            for (j = 1; j <= GridCount; j++)
+            {
+                for (i = 1; i <= GridCount; i++)
+                {
+                    if (tmpNumberGrid[i, j].FixNo > 0)
+                    {
+                        Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo, 0), ref tmpNumberGrid);
+                    }
+                }
+            }
+
+        }
+
+
+
+
+
+
         private bool DuplicateNumber(SudokuGrid[,] tmpNumberGrid, Coordinate myCoordinate)
         {
         
@@ -1988,9 +2022,10 @@ namespace SheepNumberPlace_Cs
         
         private bool Read_PzlData(int myLv) {
 
-            int qCount, myNo, myLevel;
-            bool myNg;
+            int qCount, myNo, myLevel = 0;
+            bool myNg = false;
             SortedList myList = new SortedList();
+            Coordinate dHint = new Coordinate(); 
 
   //          MessageBox.Show("Level" + Convert.ToString(myLv)); 
 
@@ -2012,7 +2047,7 @@ namespace SheepNumberPlace_Cs
                 }
             }
 
-//            Solve_Sudoku(1, myNg, tmpNumberGrid, myLevel);
+            Solve_Sudoku(1, ref myNg, ref tmpNumberGrid, ref myLevel, ref dHint);
             FixCnt = 0;
             for (int j = 1; j <= GridCount; j++) {
                 for (int i = 1; i <= GridCount; i++) {
@@ -2085,6 +2120,329 @@ namespace SheepNumberPlace_Cs
             PictureBoxGrid.Invalidate();
 
         }
+
+
+        //'関数の戻り値　全てのマスに埋める数値が決まる場合=0、空きがある場合（作りかけ）=>埋まらないマスの数  
+        //'引数等
+        //'　SolveMode=1：全解答モード
+        //'                現在の入力状態に間違いがない場合、空きマスを解答で埋める
+        //'　　　　　　　　間違いがある場合、間違っているマスのエラーフラグ（FixErr）をオンにする　　　
+        //'　SolveMode=2：ヒントモード
+        //'　　　　　　　　現在の入力状態に間違いがない場合、引数（NextHint）に次に埋めるマス・数字をヒントとして返す
+        //'　　　　　　　　間違いがある場合、間違っているマスのエラーフラグ（FixErr）をオンにする　　　
+        //'　SolveMode=3：問題作成時モード
+        //'　　　　　　　  現在の入力状態に間違いがないか、全てのマスに埋める数値が決まるかのチェックのみ()
+        private int Solve_Sudoku(int SolveMode, ref bool NGFlag, ref SudokuGrid[,] myNumberGrid, ref int myLevel, ref Coordinate NextHint)
+        {
+
+            int i, j, n, p, s, sNo = 0, errCnt;
+            bool boolChange;
+            SudokuGrid[,] tmpNumberGrid;
+            int returnInt = 0;
+
+            //'　NGFlag：数値の確定マスに破綻がある場合：False　ない場合：True
+            NGFlag = false;
+
+            //'ローカル変数tmpSudokuNumberGridに参照元のmyNumberGridの情報をコピー
+            tmpNumberGrid = new SudokuGrid[GridCount + 1, GridCount + 1];
+
+            for (j = 1; j <= GridCount; j++)
+            {
+                for (i = 1; i <= GridCount; i++)
+                {
+                    tmpNumberGrid[i, j] = new SudokuGrid();
+                    //'全解答モードでは数値固定マス以外の情報はクリア（間違い回答の可能性があるため）
+                    if (myNumberGrid[i, j].Locked == true || SolveMode > 2)
+                    {
+                        tmpNumberGrid[i, j].Copy(myNumberGrid[i, j]);
+                    }
+
+                }
+            }
+
+            UsedTechnique = new SolvingTechnique();
+
+            myLevel = 0;
+
+            if (SolveMode == 1) {
+                Adjust_ProspectNo(ref tmpNumberGrid);
+            }
+            NextHint = new Coordinate();
+
+            if (DuplicateNumber(tmpNumberGrid, new Coordinate()) == true) {
+                NGFlag = true;
+            }
+            p = 0;
+
+            do
+            {
+                p++;
+                boolChange = false;
+                for (j = 1; j <= GridCount; j++)
+                {
+                    for (i = 1; i <= GridCount; i++)
+                    {
+                        if (tmpNumberGrid[i, j].FixNo == 0)
+                        {
+                            //'候補Noが１つしかない→数値確定
+                            if (tmpNumberGrid[i, j].ProspectNo.Count == 1)
+                            {
+                                if (myNumberGrid[i, j].FixNo == 0 && NextHint.No == 0)
+                                {
+                                    NextHint.X = i;
+                                    NextHint.Y = j;
+                                    NextHint.No = tmpNumberGrid[i, j].ProspectNo[0];
+                                }
+                                tmpNumberGrid[i, j].FixNo = tmpNumberGrid[i, j].ProspectNo[0];
+                                Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo), ref tmpNumberGrid);
+                                boolChange = true;
+                            }
+                        }
+                        else
+                        {
+                            //'既に数値確定済みのマスがある場合、その縦・横・エリアのいずれかが同じマスの該当番号を候補より除外
+                            if (Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo), ref tmpNumberGrid) == true)
+                            {
+                                boolChange = true;
+                                if (SolveMode == 2)
+                                {
+                                    i = -1;
+                                    j = -1;
+                                    break;
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+
+                while (boolChange == false)
+                {
+                    for (j = 1; j <= GridCount; j++)
+                    {
+                        for (i = 1; i <= GridCount; i++)
+                        {
+                            if (tmpNumberGrid[i, j].FixNo == 0)
+                            {
+                                for (n = 0; n < tmpNumberGrid[i, j].ProspectNo.Count; n++)
+                                {
+                                    //'該当番号以外入り得ないケース（縦・横・スクエアに該当番号以外の全ての数値が存在）
+                                    if (Check_ProspectNo_Solo(new Coordinate(i, j, Get_SquareNo(i, j, ref sNo), tmpNumberGrid[i, j].ProspectNo[n], 0), ref tmpNumberGrid) == true)
+                                    {
+                                        if (myNumberGrid[i, j].FixNo == 0 && NextHint.No == 0)
+                                        {
+                                            NextHint.X = i;
+                                            NextHint.Y = j;
+                                            NextHint.No = tmpNumberGrid[i, j].ProspectNo[n];
+                                        }
+                                        tmpNumberGrid[i, j].FixNo = tmpNumberGrid[i, j].ProspectNo[n];
+                                        Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo), ref tmpNumberGrid);
+                                        boolChange = true;
+                                        break;
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    if (boolChange == true)
+                    {
+                        break;
+                    }
+
+                    if (SolveMode == 4 || SolveMode == 3)
+                    {
+                        //Skip Detail Check
+                    }
+                    else
+                    {
+                        for (s = 1; s <= GridCount; s++)
+                        {
+                            if (Check_ProspectNo_LimitLine(s, ref tmpNumberGrid) == true)
+                            {
+                                myLevel = Math.Max(myLevel, 1);
+                                boolChange = true;
+                                break;
+                            }
+                        }
+                        if (boolChange == true)
+                        {
+                            break;
+                        }
+                        //' 指定した列（横列）において、番号ｎが入る候補マスが、特定スクエアに限定されるかをチェック
+                        for (j = 1; j <= GridCount; j++)
+                        {
+                            if (Check_ProspectNo_LimitSquare(0, j, ref tmpNumberGrid) == true)
+                            {
+                                myLevel = Math.Max(myLevel, 1);
+                                boolChange = true;
+                                break;
+                            }
+                        }
+                        if (boolChange == true)
+                        {
+                            break;
+                        }
+                        //' 指定した列（縦列）において、番号ｎが入る候補マスが、特定スクエアに限定されるかをチェック
+                        for (i = 1; i <= GridCount; i++)
+                        {
+                            if (Check_ProspectNo_LimitSquare(i, 0, ref tmpNumberGrid) == true)
+                            {
+                                myLevel = Math.Max(myLevel, 1);
+                                boolChange = true;
+                                break;
+                            }
+                        }
+                        if (boolChange == true)
+                        {
+                            break;
+                        }
+
+                        if (SolveMode == 5)
+                        {
+                            //Skip Detail Check
+                        }
+                        else
+                        {
+                            if (Check_ProspectNo_NakedPairTriple(ref tmpNumberGrid) == true)
+                            {
+                                UsedTechnique.NakedPairTriple = true;
+                                myLevel = Math.Max(myLevel, 2);
+                                boolChange = true;
+                                break;
+                            }
+                            if (SolveMode == 6)
+                            {
+                                //Skip Detail Check
+                            }
+                            else
+                            {
+                                if (Check_ProspectNo_HiddenPairTriple(ref tmpNumberGrid) == true)
+                                {
+                                    UsedTechnique.HiddenPairTriple = true;
+                                    myLevel = Math.Max(myLevel, 3);
+                                    boolChange = true;
+                                    break;
+                                }
+                                if (Check_ProspectNo_SimpleColors(ref tmpNumberGrid) == true)
+                                {
+                                    UsedTechnique.SimpleColors = true;
+                                    myLevel = Math.Max(myLevel, 3);
+                                    boolChange = true;
+                                    break;
+                                }
+                                if (Check_ProspectNo_SwordFish(ref tmpNumberGrid, 2) == true)
+                                {
+                                    this.PictureBoxGrid.Invalidate();
+                                    UsedTechnique.XWing = true;
+                                    myLevel = Math.Max(myLevel, 3);
+                                    boolChange = true;
+                                    break;
+                                }
+                                if (Check_ProspectNo_XYWing(ref tmpNumberGrid) == true)
+                                {
+                                    UsedTechnique.XYWing = true;
+                                    myLevel = Math.Max(myLevel, 3);
+                                    boolChange = true;
+                                    break;
+                                }
+                                if (Check_ProspectNo_SwordFish(ref tmpNumberGrid, 3) == true)
+                                {
+                                    UsedTechnique.SwordFish = true;
+                                    myLevel = Math.Max(myLevel, 4);
+                                    boolChange = true;
+                                    break;
+                                }
+                                if (Check_ProspectNo_MultiColors(ref tmpNumberGrid) == true)
+                                {
+                                    UsedTechnique.MultiColors = true;
+                                    myLevel = Math.Max(myLevel, 4);
+                                    boolChange = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                }
+
+            } while (boolChange == true) ;
+
+            errCnt = 0;
+            for (j = 1; j <= GridCount; j++)
+            {
+                for (i = 1; i <= GridCount; i++)
+                {
+                    if (tmpNumberGrid[i, j].FixNo == 0)
+                    {
+                        returnInt++;
+                        if (tmpNumberGrid[i, j].ProspectNo.Count == 0)
+                        {  //'候補がなくなってしまった状態（破綻）
+                            NGFlag = true;
+                        }
+                    }
+                    else
+                    {
+                        if (SolveMode <= 2)
+                        {
+                            if (tmpNumberGrid[i, j].FixNo > 0 && myNumberGrid[i, j].FixNo > 0
+                                && tmpNumberGrid[i, j].FixNo != myNumberGrid[i, j].FixNo)
+                            {
+                                myNumberGrid[i, j].FixError = true;
+                                returnInt++;
+                                NGFlag = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (SolveMode == 1) {
+                if (NGFlag == false) {
+                    for (j = 1; j <= GridCount; j++)
+                    {
+                        for (i = 1; i <= GridCount; i++)
+                        {
+                            myNumberGrid[i, j].Copy(tmpNumberGrid[i, j]);
+                        }
+                    }
+                }
+            } else if (SolveMode == 2) {
+                //
+            }
+            else if (SolveMode >= 4)
+            {
+                for (j = 1; j <= GridCount; j++)
+                {
+                    for (i = 1; i <= GridCount; i++)
+                    {
+                        myNumberGrid[i, j].Copy(tmpNumberGrid[i, j]);
+                    }
+                }
+            }
+            else if (SolveMode == 3)
+            {
+                //'問題作成モード時は候補No情報のみを戻す
+                if (NGFlag == false)
+                {
+                    for (j = 1; j <= GridCount; j++)
+                    {
+                        for (i = 1; i <= GridCount; i++)
+                        {
+                            myNumberGrid[i, j].ProspectNo.Clear();
+                            myNumberGrid[i, j].ProspectNo.AddRange(tmpNumberGrid[i, j].ProspectNo);
+                        }
+                    }
+
+                }
+            }
+
+            return returnInt;
+
+        }
+
+
 
 
         //'
