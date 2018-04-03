@@ -140,6 +140,7 @@ namespace SheepNumberPlace_Cs
 
             for (int i = 0; i < PickedNoListOrder.Length; i++)
             {
+
                 for (int j = 0; j < PickedNoListOrder[i].Count; j++)
                 {
                     Debug.Write(Convert.ToString(PickedNoListOrder[i][j]) + ",");
