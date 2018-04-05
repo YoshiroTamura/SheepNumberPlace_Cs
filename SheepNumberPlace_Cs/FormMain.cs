@@ -11,8 +11,6 @@ using System.Drawing.Drawing2D;
 using System.Configuration;
 using System.Diagnostics;
 
-//https://github.com/YoshiroTamura/SheepNumberPlaceCs.git
-
 namespace SheepNumberPlace_Cs
 {
 
@@ -43,7 +41,11 @@ namespace SheepNumberPlace_Cs
         private Color[] PaletteColor;
         private Color[] PaletteLineColor;
 
-        private HatchStyle HighlightHatch, HighlightHatchB;
+        private HatchStyle HighlightHatch = HatchStyle.Percent50;
+        private HatchStyle HighlightHatchB = HatchStyle.WideUpwardDiagonal;
+            //HighlightHatch = HatchStyle.SolidDiamond
+
+
 
         private int CurrentLevel = 1;
         private int CurrentAssignCnt;
@@ -93,6 +95,18 @@ namespace SheepNumberPlace_Cs
         {
             Control ctl2;
 
+            //int[] testarray = new int[] { 1, 2, 3, 4, 5 };
+
+            //Array.Resize(ref testarray, testarray.Length - 1);
+
+            //foreach (int s in testarray)
+            //{
+            //    Debug.Write(Convert.ToString(s) + ",");
+            //}
+
+            //Environment.Exit(0);
+
+
             PaletteColor = new Color[] { Color.White, Color.LightBlue, Color.LightGreen, Color.LightPink, Color.LightSalmon, Color.White, Color.White };
 
             PaletteLineColor = new Color[] { Color.DarkBlue, Color.DarkGreen, Color.DeepPink, Color.OrangeRed };
@@ -126,6 +140,10 @@ namespace SheepNumberPlace_Cs
                 }
             }
 
+
+
+
+
             //List<int> excludeNo = new List<int>();
             //int rnd;
             //for (int i = 0; i <= 10; i++) {
@@ -148,10 +166,10 @@ namespace SheepNumberPlace_Cs
                 Console.Write("\r\n");
             }
 
-            int ppp;
+            //int ppp;
 
-            ppp = (int)(GridCount / 2);
-            Debug.Write(">>>>>>>>>>>>>>>>>>>>>>>>>>" + Convert.ToString(ppp));
+            //ppp = (int)(GridCount / 2);
+            //Debug.Write(">>>>>>>>>>>>>>>>>>>>>>>>>>" + Convert.ToString(ppp));
             //MessageBox.Show(Convert.ToString(ppp));
 
             //MessageBox.Show(Convert.ToString(ddd));
@@ -161,7 +179,7 @@ namespace SheepNumberPlace_Cs
             Set_Menu_LevelItem();
             Set_Menu_Mode();
             Reset_History();
-            //Call Display_NewQuestion();
+            Display_NewQuestion();
 
             //Call Switch_KeypadDisplay();
             //Call Switch_ToolButtonEnabled();
@@ -180,7 +198,7 @@ namespace SheepNumberPlace_Cs
 
             foreach (SettingsProperty myCfg in Properties.Settings.Default.Properties)
             {
-
+                
                 if (myCfg.Name == "WindowSize")
                 {
                     WindowSize = (int)Properties.Settings.Default[myCfg.Name];
@@ -379,7 +397,7 @@ namespace SheepNumberPlace_Cs
             Rectangle destRect;
             Rectangle srcRect;
 
-            GridSize = 40;
+            //            GridSize = 40;
 
             System.Drawing.Imaging.ColorMatrix cm = new System.Drawing.Imaging.ColorMatrix();
 
@@ -618,18 +636,22 @@ namespace SheepNumberPlace_Cs
 
 
                     //候補No表示（問題作成モード時）
-                    if (AnalyzeMode == true)
+                    if (AnalyzeMode == true || true)
                     {
                         if (SudokuNumberGrid[i, j].ProspectNo.Count > 0 && SudokuNumberGrid[i, j].FixNo == 0)
                         {
-                            if (this.Chk_DisplayProspect.Checked == true)
+                            if (this.Chk_DisplayProspect.Checked == true || true)
                             {
-                                for (n = 0; n <= SudokuNumberGrid[i, j].ProspectNo.Count - 1; n++)
+                                for (n = 0; n < SudokuNumberGrid[i, j].ProspectNo.Count; n++)
                                 {
                                     e.Graphics.DrawString(Convert.ToString(SudokuNumberGrid[i, j].ProspectNo[n]), MemoFnt, new SolidBrush(Color.MediumPurple),
-                                               (float)(GridStartX + GridSize * (i - 1 + (((SudokuNumberGrid[i, j].ProspectNo[n] - 1) % 3) * 2 + 1) / 6)),
+                                               (float)(GridStartX + GridSize * (i - 1 + (float)(((SudokuNumberGrid[i, j].ProspectNo[n] - 1) % 3) * 2 + 1) / 6)),
                                                (float)(GridStartY + GridSize * (j - 1 + (Math.Floor((decimal)((SudokuNumberGrid[i, j].ProspectNo[n] - 1) / 3)) * 2 + 1) / 6) + 1),
                                                sf);
+                                    //e.Graphics.DrawString(Convert.ToString(SudokuNumberGrid[i, j].ProspectNo[n]), MemoFnt, new SolidBrush(Color.MediumPurple),
+                                    //           (float)(GridStartX + GridSize * (i - 1 + (((SudokuNumberGrid[i, j].ProspectNo[n] - 1) % 3) * 2 + 1) / 6)),
+                                    //           (float)(GridStartY + GridSize * (j - 1 + (Math.Floor((decimal)((SudokuNumberGrid[i, j].ProspectNo[n] - 1) / 3)) * 2 + 1) / 6) + 1),
+                                    //           sf);
                                 }
                             }
                         }
@@ -1580,6 +1602,9 @@ namespace SheepNumberPlace_Cs
             }
 
             GridSize = Convert.ToInt32(Convert.ToString(sender.Tag).Substring(2, 3));
+
+            //            MessageBox.Show(Convert.ToString(GridSize)); 
+
             NumberFnt = new Font("MS UI Gothic", Convert.ToInt32(Convert.ToString(sender.Tag).Substring(5, 3)), FontStyle.Bold);
             MemoFnt = new Font("MS UI Gothic", Convert.ToInt32(Convert.ToString(sender.Tag).Substring(8, 3)), FontStyle.Regular);
 
@@ -1665,6 +1690,9 @@ namespace SheepNumberPlace_Cs
 
             wdd = 0;
             myH = this.MenuStrip1.Height + this.ToolStrip1.Height + 5;
+
+
+            //            MessageBox.Show(Convert.ToString(GridSize));
 
             myPicturebox.Size = new Size(GridStartX + GridSize * GridCount + MarginX,
                                          GridStartY + GridSize * GridCount + MarginY / 2);
@@ -1769,9 +1797,6 @@ namespace SheepNumberPlace_Cs
                 highlightPicturebox.Visible = ToolboxInfo[tNo].Visible;
             }
 
-            HighlightHatch = HatchStyle.Percent50;
-            //HighlightHatch = HatchStyle.SolidDiamond
-            HighlightHatchB = HatchStyle.WideUpwardDiagonal;
 
             palettePicturebox.Width = wdd;
             memoPicturebox.Width = wdd;
@@ -1971,10 +1996,10 @@ namespace SheepNumberPlace_Cs
                 SudokuNumberGrid[CurrentGridX, CurrentGridY].Locked = AnalyzeMode;
             }
 
-            //          Adjust_ProspectNo(SudokuNumberGrid);
+            Adjust_ProspectNo(ref SudokuNumberGrid);
             Add_enterHistory();
-            //          Reset_Hint();
-            //          Reset_AnswerCheck();
+            //Reset_Hint();
+            //Reset_AnswerCheck();
 
             if (AnalyzeMode == false)
             {
@@ -1984,6 +2009,9 @@ namespace SheepNumberPlace_Cs
             {
                 DuplicateNumber(SudokuNumberGrid, new Coordinate(CurrentGridX, CurrentGridY));
             }
+
+//            DuplicateNumber(SudokuNumberGrid, new Coordinate(CurrentGridX, CurrentGridY));
+
 
             this.PictureBoxGrid.Invalidate();
         }
@@ -2110,7 +2138,7 @@ namespace SheepNumberPlace_Cs
                 }
                 else
                 {
-                    //                    Display_NewQuestion();
+                    Display_NewQuestion();
                 }
             }
 
@@ -2236,8 +2264,7 @@ namespace SheepNumberPlace_Cs
 
         private void Display_NewQuestion()
         {
-            int cnt;
-            String strAsterisk = "";
+            int cnt = 0;
             int tNo, myLevel;
 
             Reset_History();
@@ -2257,7 +2284,7 @@ namespace SheepNumberPlace_Cs
             }
             else
             {
-                //                Create_NewQuestion(CurrentAssignCnt, cnt);
+                Create_NewQuestion(CurrentAssignCnt, ref cnt);
             }
 
             Set_Grid(this.PictureBoxGrid, this.PictureBoxMemo, this.PictureBoxPalette, this.PictureBoxHighlight);
@@ -2272,9 +2299,11 @@ namespace SheepNumberPlace_Cs
         {
 
             String txtAll = (String)Properties.Resources.ResourceManager.GetObject("NumLgLv" + Convert.ToString(myLv));
-            //Console.Write(txtAll);
+            Debug.Write(txtAll);
 
             String[] txtLines = txtAll.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            //Debug.Write(Convert.ToString(txtLines.Length ));
 
 
             double d;
@@ -2291,20 +2320,25 @@ namespace SheepNumberPlace_Cs
         private bool Read_PzlData(int myLv)
         {
 
-            int qCount, myNo, myLevel = 0;
+
+            int qCount, myNo = 0, myLevel = 0;
             bool myNg = false;
             SortedList myList = new SortedList();
             Coordinate dHint = new Coordinate();
 
-            //            MessageBox.Show("Level" + Convert.ToString(myLv)); 
 
 
             qCount = Get_QuestionCount(myLv);
             if (qCount > 0)
             {
                 myNo = commonmdl.Generate_RandomRange(1, qCount);
+
                 Load_NumLogicStock(myLv, myNo);
+
             }
+
+            //MessageBox.Show("myNo" + Convert.ToString(myNo)); 
+
 
             //チェック用
             int FixCnt;
@@ -2321,10 +2355,10 @@ namespace SheepNumberPlace_Cs
 
 
             Solve_Sudoku(1, ref myNg, ref tmpNumberGrid, ref myLevel, ref dHint);
-            System.Console.WriteLine(Convert.ToString(myNg) + ": Level" + Convert.ToString(myLevel));
+            Debug.Write(Convert.ToString(myNg) + ": Level" + Convert.ToString(myLevel));
 
-            MessageBox.Show("Level" + Convert.ToString(myLv));
-            MessageBox.Show(Convert.ToString(myNg) + ": Level" + Convert.ToString(myLevel));
+            //MessageBox.Show("Level" + Convert.ToString(myLv));
+            //MessageBox.Show(Convert.ToString(myNg) + ": Level" + Convert.ToString(myLevel));
 
 
             FixCnt = 0;
@@ -2338,6 +2372,8 @@ namespace SheepNumberPlace_Cs
                     }
                 }
             }
+
+            //MessageBox.Show("FixCnt" + Convert.ToString(FixCnt));
 
             return true;
         }
@@ -2410,7 +2446,7 @@ namespace SheepNumberPlace_Cs
             this.LblLevel.Text = "";
             this.LblLevel.Tag = "";
 
-            //      Adjust_ProspectNo(SudokuNumberGrid);
+            Adjust_ProspectNo(ref SudokuNumberGrid);
 
             Reset_History();
             PictureBoxGrid.Invalidate();
@@ -2424,25 +2460,29 @@ namespace SheepNumberPlace_Cs
         {
             int myRnd, x, y, x2, y2, pre_x2, pre_y2;
             int i, j, n = 0, s, ss, answerCnt, errCnt;
-            int myLevel, blankGrid, dCnt = 50;
+            int myLevel = 0, blankGrid, dCnt = 50;
             int[] AssignedNo, fixedCnt;
-            bool backFlag, ngFlag, loopFlgG, loopFlgL;
+            bool backFlag, ngFlag = false, loopFlgA, loopFlgB, loopFlgC, skipCpart;
             List<int> ProspectNoBalance = new List<int>();
             List<int> myRndProspectNo = new List<int>();
             Coordinate myCoordinate = new Coordinate();
             List<SudokuGrid[,]> answerNumberGrid = new List<SudokuGrid[,]>() { };
             SudokuGrid[,] myTmpNumberGrid;
             Coordinate[] myNextGrid;
-            Coordinate dHint;
+            Coordinate dHint = new Coordinate();
+
+            AssignedNo = new int[] { };
 
             SudokuNumberGrid = new SudokuGrid[GridCount + 1, GridCount + 1];
 
-            loopFlgG = false;
-            loopFlgL = false;
-            //FS:
+            loopFlgA = false;
+            loopFlgB = false;
+            loopFlgC = false;
 
+            //FS:
             do
             {
+                loopFlgA = false;
                 errCnt = 0;
                 backFlag = false;
 
@@ -2463,17 +2503,27 @@ namespace SheepNumberPlace_Cs
                 AssignedNo = new int[] { };
                 myTmpNumberGrid = new SudokuGrid[GridCount + 1, GridCount + 1];
 
+                Debug.Write("FS>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+
                 //F_Loop:
                 do
                 {
+                    //Debug.Write("FLoop>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+                    loopFlgB = false;
+                    skipCpart = false; 
                     if (errCnt > 100 || AssignedNo.Length > assignCnt)
                     {
-                        loopFlgG = true;
+                        Debug.Write("1");
+                        loopFlgA = true;
                         break;
                     }
 
                     if (backFlag == false)
                     {
+//                        MessageBox.Show("aaaaa");
+
                         if (AssignedNo.Length > 0)
                         {
                             //'直近に割り当てたマスと点対称の位置にあるマスの座標
@@ -2488,8 +2538,9 @@ namespace SheepNumberPlace_Cs
                         }
                         //'バックトラック法を適用
                         if (AssignedNo.Length > assignCnt - 2 && SudokuNumberGrid[pre_x2, pre_y2].FixNo > 0)
-                        {
-                            for (j = 1; j <= GridCount; j++)
+ //                       if (AssignedNo.Length > assignCnt * 2 && SudokuNumberGrid[pre_x2, pre_y2].FixNo > 0)
+                            {
+                                for (j = 1; j <= GridCount; j++)
                             {
                                 for (i = 1; i <= GridCount; i++)
                                 {
@@ -2514,161 +2565,192 @@ namespace SheepNumberPlace_Cs
                                         AssignedNo[AssignedNo.Length - 1] = (myNextGrid[i].Y - 1) * GridCount + myNextGrid[i].X;
                                         fixedCnt[myNextGrid[i].No]++;
                                     }
-                                    dHint = new Coordinate();
-                                    ngFlag = false;
-                                    myLevel = 0;
                                     blankGrid = Solve_Sudoku(3, ref ngFlag, ref SudokuNumberGrid, ref myLevel, ref dHint);
                                     if (blankGrid == 0)
                                     {
+                                        Debug.Write("2");
+                                        break;
                                         //GoTo F_Fix
                                     }
                                     else
                                     {
+                                        Debug.Write("3");
+                                        skipCpart = true;
                                         //GoTo F_Loop
                                     }
                                 }
                                 else {
-                                    loopFlgG = true;
+                                    Debug.Write("4");
+                                    loopFlgA = true;
                                     break;
                                     // GoTo FS
                                 }
                             }
                             else
                             {
-                                loopFlgG = true;
+                                Debug.Write("5");
+                                loopFlgA = true;
                                 break;
-                                //                    GoTo FS
+                                //GoTo FS
                             }
                         }
-                        //else if (Assign_NextTaget(AssignedNo, SudokuNumberGrid) == false) {
-                        ////                GoTo FS
-                        //}
+                        else if (Assign_NextTaget(ref AssignedNo, SudokuNumberGrid) == false) {
+                            Debug.Write("6");
+//                            MessageBox.Show("6"); 
+                            loopFlgA = true;
+                            break;
+                            //GoTo FS
+                        }
                     }
 
+                    if (skipCpart == false)
+                    {
+                        x = (AssignedNo[AssignedNo.Length - 1] - 1) % GridCount + 1;
+                        y = (AssignedNo[AssignedNo.Length - 1] - 1) / GridCount + 1;
+                        x2 = GridCount - x + 1;
+                        y2 = GridCount - y + 1;
 
-                } while (loopFlgL == true);
+                        backFlag = false;
 
+                        //F_Loop2:
+                        do
+                        {
+                            //Debug.Write("FLoop2>>>>>>>>>>>>>>>>>>>>>>>>>>");
+                            loopFlgC = false;
+                            myRnd = Select_FitProspectNo(new Coordinate(x, y), SudokuNumberGrid);
+                            SudokuNumberGrid[x, y].FixNo = myRnd;
 
-            } while (loopFlgG == true);
-
-
-
-
-            //        'Debug.Print("p=" & UBound(AssignedNo) & "/" & assignCnt)
-
-
-            //        x = (AssignedNo(UBound(AssignedNo)) - 1) Mod GridCount + 1
-            //        y = (AssignedNo(UBound(AssignedNo)) - 1) \ GridCount + 1
-            //        x2 = GridCount - x + 1
-            //        y2 = GridCount - y + 1
-
-            //        backFlag = False
-
-
-            //F_Loop2:
-
-            //        ''割り当てる数値が偏りすぎないよう調整
-
-            //        myRnd = Select_FitProspectNo(New Coordinate(x, y, 0), SudokuNumberGrid)
+                            Debug.Write("Assigned." + Convert.ToString(AssignedNo.Length) + " x=" + Convert.ToString(x) + "  y=" + Convert.ToString(y) + " myRnd=" + Convert.ToString(myRnd) + "\r\n");
 
 
-            //        SudokuNumberGrid(x, y).FixNo = myRnd
+                            if (myRnd > 0)
+                            {
+                                SudokuNumberGrid[x, y].Locked = true;
+                                //'この時点で、問題として成り立つか（＝最後まで解けるか）をチェック
+                                blankGrid = Solve_Sudoku(3, ref ngFlag, ref SudokuNumberGrid, ref myLevel, ref dHint);
+                                //'Debug.Print("x=" & x & " y=" & y & " No." & myRnd & "   blankGrid：" & blankGrid & " " & ngFlag)
+                                if (ngFlag == true)
+                                {
+                                    //'破綻がある場合は、番号を変更してやり直し
+                                    SudokuNumberGrid[x, y].ExcludeNo.Add(myRnd);
+                                    SudokuNumberGrid[x, y].Locked = false;
+                                    SudokuNumberGrid[x, y].FixNo = 0;
+                                    Adjust_ProspectNo(ref SudokuNumberGrid);
+                                    loopFlgC = true;
+                                    //Debug.Write("7:Assigned." + Convert.ToString(AssignedNo.Length) + " x=" + Convert.ToString(x) + "  y=" + Convert.ToString(y) + " myRnd="+ Convert.ToString(myRnd)+"\r\n");
+                                    //GoTo F_Loop2
+                                }
+                                else
+                                {
+                                    fixedCnt[SudokuNumberGrid[x, y].FixNo]++;
+                                    if (blankGrid > 0)
+                                    {
+                                        //'破綻はないがまだ未完成の場合は次のマスの割り当てへ
+                                        loopFlgB = true;
+ //                                       Debug.Write("8\r\n");
+                                        break;
+                                        //GoTo F_Loop;
+                                    }
+                                    else
+                                    {
+                                        //'問題として成り立つ場合
+                                        //'点対称にするための調整
+                                        if (SudokuNumberGrid[x2, y2].FixNo == 0)
+                                        {
+                                            SudokuNumberGrid[x2, y2].FixNo = SudokuNumberGrid[x2, y2].ProspectNo[0];
+                                            SudokuNumberGrid[x2, y2].Locked = true;
+                                            fixedCnt[SudokuNumberGrid[x2, y2].FixNo]++;
+                                            Array.Resize(ref AssignedNo, AssignedNo.Length + 1);
+                                            AssignedNo[AssignedNo.Length - 1] = (y2 - 1) * GridCount + x2;
+                                        }
+                                    }
+                                }
 
-            //        If myRnd > 0 Then
-            //            SudokuNumberGrid(x, y).Locked = True
-            //            'この時点で、問題として成り立つか（＝最後まで解けるか）をチェック
-            //            blankGrid = Solve_Sudoku(3, ngFlag, SudokuNumberGrid, myLevel)
-            //            'Debug.Print("x=" & x & " y=" & y & " No." & myRnd & "   blankGrid：" & blankGrid & " " & ngFlag)
 
-            //            If ngFlag = True Then
-            //                '破綻がある場合は、番号を変更してやり直し
-            //                SudokuNumberGrid(x, y).ExcludeNo.Add(myRnd)
-            //                SudokuNumberGrid(x, y).Locked = False
-            //                SudokuNumberGrid(x, y).FixNo = 0
-            //                Call Adjust_ProspectNo(SudokuNumberGrid)
-            //                GoTo F_Loop2
-            //            Else
-            //                fixedCnt(SudokuNumberGrid(x, y).FixNo) = fixedCnt(SudokuNumberGrid(x, y).FixNo) + 1
-            //                If blankGrid > 0 Then
-            //                    '破綻はないがまだ未完成の場合は次のマスの割り当てへ
-            //                    GoTo F_Loop
-            //                Else
-            //                    '問題として成り立つ場合
-            //                    '点対称にするための調整
-            //                    If SudokuNumberGrid(x2, y2).FixNo = 0 Then
-            //                        SudokuNumberGrid(x2, y2).FixNo = SudokuNumberGrid(x2, y2).ProspectNo(0)
-            //                        'SudokuNumberGrid(x2, y2).ForeColor = Color.DeepPink
-            //                        SudokuNumberGrid(x2, y2).Locked = True
-            //                        fixedCnt(SudokuNumberGrid(x2, y2).FixNo) = fixedCnt(SudokuNumberGrid(x2, y2).FixNo) + 1
-            //                        ReDim Preserve AssignedNo(UBound(AssignedNo) + 1)
-            //                        AssignedNo(UBound(AssignedNo)) = (y2 - 1) * GridCount + x2
-            //                    End If
-            //                End If
-            //            End If
+                            }
+                            else
+                            {
+                                //'該当マスに割り当てられる数値がなくなってしまった場合は、１つ前のマスに戻ってやり直し
+                                SudokuNumberGrid[x, y].ExcludeNo.Clear();
+                                //'1つ前に割り当てた座標
+                                x = (AssignedNo[AssignedNo.Length - 2] - 1) % GridCount + 1;
+                                y = (AssignedNo[AssignedNo.Length - 2] - 1) / GridCount + 1;
+                                fixedCnt[SudokuNumberGrid[x, y].FixNo]--;
+                                SudokuNumberGrid[x, y].ExcludeNo.Add(SudokuNumberGrid[x, y].FixNo);
+                                SudokuNumberGrid[x, y].FixNo = 0;
+                                Adjust_ProspectNo(ref SudokuNumberGrid);
+                                Array.Resize(ref AssignedNo, AssignedNo.Length - 1);
+                                if (AssignedNo.Length == 0)
+                                {
+                                    Debug.Write("9");
+                                    break;
+                                    //                GoTo FS
+                                }
+                                errCnt = errCnt++;
+                                backFlag = true;
+                                loopFlgB = true;
+   //                             Debug.Write("10\r\n");
 
-            //        Else
-            //            '該当マスに割り当てられる数値がなくなってしまった場合は、１つ前のマスに戻ってやり直し
-            //            SudokuNumberGrid(x, y).ExcludeNo.Clear()
-            //            '1つ前に割り当てた座標
-            //            x = (AssignedNo(UBound(AssignedNo) - 1) - 1) Mod GridCount + 1
-            //            y = (AssignedNo(UBound(AssignedNo) - 1) - 1) \ GridCount + 1
-            //            fixedCnt(SudokuNumberGrid(x, y).FixNo) = fixedCnt(SudokuNumberGrid(x, y).FixNo) - 1
-            //            SudokuNumberGrid(x, y).ExcludeNo.Add(SudokuNumberGrid(x, y).FixNo)
-            //            SudokuNumberGrid(x, y).FixNo = 0
-            //            'SudokuNumberGrid(x, y).Locked = False
+                                break;
+                                //GoTo F_Loop
+                            }
 
-            //            Call Adjust_ProspectNo(SudokuNumberGrid)
-            //            ReDim Preserve AssignedNo(UBound(AssignedNo) - 1)
-            //            If UBound(AssignedNo) = 0 Then
-            //                GoTo FS
-            //            End If
-            //            errCnt = errCnt + 1
-            //            backFlag = True
-            //            GoTo F_Loop
-            //        End If
+
+                        } while (loopFlgC == true);
+
+                    }
+
+                } while (loopFlgB == true);
+
+            } while (loopFlgA == true);
 
             //F_Fix:
-            //        FixCnt = 0
-            //        For j = 1 To GridCount
-            //            For i = 1 To GridCount
-            //                If SudokuNumberGrid(i, j).FixNo > 0 Then
-            //                    FixCnt = FixCnt + 1
-            //                Else
-            //                    SudokuNumberGrid(i, j).Locked = False
-            //                End If
-            //            Next
-            //        Next
+            FixCnt = 0;
+            for (j = 1; j <= GridCount; j++)
+            {
+                for (i = 1; i <= GridCount; i++)
+                {
+                    if (SudokuNumberGrid[i, j].FixNo > 0)
+                    {
+                        FixCnt++;
+                    }
+                    else
+                    {
+                        SudokuNumberGrid[i, j].Locked = false;
+                    }
+                }
+            }
 
+            //'割り当てマスが少ない場合は足す（初級者向け）
+            while (FixCnt < assignCnt)
+            {
+                if (Assign_NextTaget(ref AssignedNo, SudokuNumberGrid) == true)
+                {
+                    x = (AssignedNo[AssignedNo.Length - 1] - 1) % GridCount + 1;
+                    y = (AssignedNo[AssignedNo.Length - 1] - 1) / GridCount + 1;
+                    SudokuNumberGrid[x, y].FixNo = SudokuNumberGrid[x, y].ProspectNo[0];
+                    SudokuNumberGrid[x, y].Locked = true;
+                    FixCnt++;
+                    //'点対称位置のマスにも配置
+                    x2 = GridCount - x + 1;
+                    y2 = GridCount - y + 1;
+                    if (SudokuNumberGrid[x2, y2].FixNo == 0)
+                    {
+                        SudokuNumberGrid[x2, y2].FixNo = SudokuNumberGrid[x2, y2].ProspectNo[0];
+                        SudokuNumberGrid[x2, y2].Locked = true;
+                        FixCnt++;
+                        Array.Resize(ref AssignedNo, AssignedNo.Length + 1);
+                        AssignedNo[AssignedNo.Length - 1] = (y2 - 1) * GridCount + x2;
+                    }
+                }
 
-
-            //        '割り当てマスが少ない場合は足す（初級者向け）
-            //        Do While FixCnt<assignCnt
-            //            If Assign_NextTaget(AssignedNo, SudokuNumberGrid) = True Then
-            //                x = (AssignedNo(UBound(AssignedNo)) - 1) Mod GridCount + 1
-            //                y = (AssignedNo(UBound(AssignedNo)) - 1) \ GridCount + 1
-            //                SudokuNumberGrid(x, y).FixNo = SudokuNumberGrid(x, y).ProspectNo(0)
-            //                SudokuNumberGrid(x, y).Locked = True
-            //                'SudokuNumberGrid(x, y).ForeColor = Color.DeepPink
-            //                FixCnt = FixCnt + 1
-            //                '点対称位置のマスにも配置
-            //                x2 = GridCount - x + 1
-            //                y2 = GridCount - y + 1
-            //                If SudokuNumberGrid(x2, y2).FixNo = 0 Then
-            //                    SudokuNumberGrid(x2, y2).FixNo = SudokuNumberGrid(x2, y2).ProspectNo(0)
-            //                    SudokuNumberGrid(x2, y2).Locked = True
-            //                    'SudokuNumberGrid(x2, y2).ForeColor = Color.DeepPink
-            //                    FixCnt = FixCnt + 1
-            //                    ReDim Preserve AssignedNo(UBound(AssignedNo) + 1)
-            //                    AssignedNo(UBound(AssignedNo)) = (y2 - 1) * GridCount + x2
-            //                End If
-
-            //            End If
+            }
             //        Loop
 
-            //        Call Adjust_ProspectNo(SudokuNumberGrid)
-            //        Me.PictureBoxGrid.Invalidate()
+            Adjust_ProspectNo(ref SudokuNumberGrid);
+            this.PictureBoxGrid.Invalidate();
 
-            //        'Debug.Print("sum>>>" & FixCnt & "   Level=" & myLevel)
+            Debug.Write("FixCnt="+Convert.ToString(FixCnt) );
 
         }
 
@@ -2679,10 +2761,62 @@ namespace SheepNumberPlace_Cs
 
 
 
+        //'
+        //'  指定のマスに入りうる数値のうち、その番号を入れることによって他のマスの候補Noが最も減るものを選択
+        //'
+        private int Select_FitProspectNo(Coordinate myCoordinate, SudokuGrid[,] tmpSudokuNumberGrid)
+        {
+
+            int cntProspect, i, rnd, sNo = 0, maxCnt = 0;
+            List<Coordinate> myProspect = new List<Coordinate>();
+            List<int> FitNo = new List<int>();
+
+            ////++++++++++++++++++++++++++++++++++++++++++test++++++++++++++++++++++++++++++++++++++++++++++++++
+            //for (i = 0; i < tmpSudokuNumberGrid[myCoordinate.X, myCoordinate.Y].ProspectNo.Count; i++)
+            //{
+            //    myCoordinate.No = tmpSudokuNumberGrid[myCoordinate.X, myCoordinate.Y].ProspectNo[i];
+            //    if (tmpSudokuNumberGrid[myCoordinate.X, myCoordinate.Y].ExcludeNo.IndexOf(myCoordinate.No) >= 0)
+            //    {
+            //        //skip  
+            //    }
+            //    else
+            //    {
+            //        return myCoordinate.No;
+            //    }
+
+            //}
+            //        //++++++++++++++++++++++++++++++++++++++++++test++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
+            myCoordinate.S = Get_SquareNo(myCoordinate.X, myCoordinate.Y, ref sNo);
 
+            for (i = 0; i < tmpSudokuNumberGrid[myCoordinate.X, myCoordinate.Y].ProspectNo.Count; i++)
+            {
+                myCoordinate.No = tmpSudokuNumberGrid[myCoordinate.X, myCoordinate.Y].ProspectNo[i];
+                if (tmpSudokuNumberGrid[myCoordinate.X, myCoordinate.Y].ExcludeNo.IndexOf(myCoordinate.No) >= 0)
+                {
+                    //skip  
+                } else
+                {
+                    cntProspect = Count_ProspectNo_On_Group(myCoordinate, ref myProspect, tmpSudokuNumberGrid);
 
+                    if (cntProspect >= maxCnt)
+                    {
+                        if (cntProspect > maxCnt)
+                        {
+                            FitNo.Clear();
+                            maxCnt = cntProspect;
+                        }
+                        FitNo.Add(myCoordinate.No);
+                    }
+                }
+
+            }
+
+            rnd = commonmdl.Generate_Random_FromList(FitNo, tmpSudokuNumberGrid[myCoordinate.X, myCoordinate.Y].ExcludeNo);
+
+            return rnd;
+        }
 
 
         //'関数の戻り値　全てのマスに埋める数値が決まる場合=0、空きがある場合（作りかけ）=>埋まらないマスの数  
@@ -2738,7 +2872,7 @@ namespace SheepNumberPlace_Cs
                 NGFlag = true;
             }
             p = 0;
-
+//F_Loop
             do
             {
                 p++;
@@ -2759,14 +2893,14 @@ namespace SheepNumberPlace_Cs
                                     NextHint.No = tmpNumberGrid[i, j].ProspectNo[0];
                                 }
                                 tmpNumberGrid[i, j].FixNo = tmpNumberGrid[i, j].ProspectNo[0];
-                                Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo), ref tmpNumberGrid);
+                                Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo, 0), ref tmpNumberGrid);
                                 boolChange = true;
                             }
                         }
                         else
                         {
                             //'既に数値確定済みのマスがある場合、その縦・横・エリアのいずれかが同じマスの該当番号を候補より除外
-                            if (Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo), ref tmpNumberGrid) == true)
+                            if (Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo, 0), ref tmpNumberGrid) == true)
                             {
                                 boolChange = true;
                                 if (SolveMode == 2)
@@ -2802,7 +2936,7 @@ namespace SheepNumberPlace_Cs
                                             NextHint.No = tmpNumberGrid[i, j].ProspectNo[n];
                                         }
                                         tmpNumberGrid[i, j].FixNo = tmpNumberGrid[i, j].ProspectNo[n];
-                                        Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo), ref tmpNumberGrid);
+                                        Remove_ProspectNo(1, new Coordinate(i, j, 0, tmpNumberGrid[i, j].FixNo, 0), ref tmpNumberGrid);
                                         boolChange = true;
                                         break;
                                     }
@@ -2822,6 +2956,8 @@ namespace SheepNumberPlace_Cs
                     }
                     else
                     {
+                        MessageBox.Show("Detail Check");
+
                         for (s = 1; s <= GridCount; s++)
                         {
                             if (Check_ProspectNo_LimitLine(s, ref tmpNumberGrid) == true)
@@ -4107,8 +4243,13 @@ namespace SheepNumberPlace_Cs
 
             int i, j, myS, mySNo = 0;
             List<Coordinate> myRemoveGrid = new List<Coordinate>();
+            bool returnFlg = false;
 
             myS = myCoordinate.S;
+
+
+       //     myS = Get_SquareNo(myCoordinate.X, myCoordinate.Y, ref mySNo);
+
 
             myRemoveGrid.Clear();
 
@@ -4172,12 +4313,12 @@ namespace SheepNumberPlace_Cs
                     if (tmpNumberGrid[myRemoveGrid[i].X, myRemoveGrid[i].Y].ProspectNo.IndexOf(myCoordinate.No) >= 0)
                     {
                         tmpNumberGrid[myRemoveGrid[i].X, myRemoveGrid[i].Y].ProspectNo.Remove(myCoordinate.No);
-                        return true;
+                        returnFlg = true;
                     }
                 }
             }
 
-            return false;
+            return returnFlg;
 
         }
 
@@ -4481,7 +4622,7 @@ namespace SheepNumberPlace_Cs
                     {
                         if (tmpNumberGrid[i, j].ProspectNo.IndexOf(myTarget.No) >= 0)
                         {
-                            cnt = cnt++;
+                            cnt++;
                             myPlace.Add(new Coordinate(i, j, 0, myTarget.No, 0));
                         }
                     }
@@ -4653,21 +4794,80 @@ namespace SheepNumberPlace_Cs
         }
 
 
+        //'
+        //'  問題作成時：次に数値を割当てるマスを決める
+        //'　　　1.１つ前に割当てたNoの点対称位置のマスを優先
+        //'　　　2.点対称マスが既に割当て済の場合は、現時点で候補No数が最も多いマスを選択（候補数が同じ場合は乱数使用）
+        //'
 
-        
+        private bool Assign_NextTaget(ref int[] AssignedNo, SudokuGrid[,] myNumberGrid)
+        {
+
+            int x1, x2, y1, y2, p, i;
+            int preNo, symmetryNo, newNo = 0;
+            List<int> myNoList = new List<int>();
+
+            if (AssignedNo.Length > 0)
+            {
+                preNo = AssignedNo[AssignedNo.Length - 1]; // '前回割り当てのマスNo
+                symmetryNo = GridCount * GridCount - preNo + 1; //  '前回割り当てのマスと点対称位置にあるマス
+
+                //Debug.Write(Convert.ToString(preNo) + "--" + Convert.ToString(symmetryNo) + "\r\n");
+                newNo = symmetryNo;
+                for (i = 0; i < AssignedNo.Length; i++)
+                {
+                    if (AssignedNo[i] == symmetryNo)
+                    {
+                        newNo = 0;
+                        break;
+                    }
+                }
+            }
+
+            if (newNo == 0)
+            {
+                p = GridCount * 2; // '候補No数の初期値
+                do
+                {
+                    for (y1 = 1; y1 <= GridCount / 2 + 1; y1++)
+                    {
+                        for (x1 = 1; x1 <= ((y1 == 5) ? GridCount / 2 + 1 : GridCount); x1++)
+                        {
+                            x2 = GridCount - x1 + 1;
+                            y2 = GridCount - y1 + 1;
+                            if (myNumberGrid[x1, y1].FixNo == 0 && myNumberGrid[x2, y2].FixNo == 0)
+                            {
+                                if (myNumberGrid[x1, y1].ProspectNo.Count + myNumberGrid[x2, y2].ProspectNo.Count == p)
+                                {
+                                    myNoList.Add((y1 - 1) * GridCount + x1);
+                                    myNoList.Add((y2 - 1) * GridCount + x2);
+                                }
+                            }
+                        }
+                    }
+                    if (myNoList.Count > 0)
+                    {
+                        newNo = commonmdl.Generate_Random_FromList(myNoList);
+                        break;
+                    }
+                    p--;
+
+                } while (p >= 2);
+
+            }
+
+            if (newNo > 0)
+            {
+                Array.Resize(ref AssignedNo, AssignedNo.Length + 1);
+                AssignedNo[AssignedNo.Length - 1] = newNo;
+                return true;
+            }
+
+            return false;
+
+        }
 
 
-
-
-
-
-
-
-
-
-
-
-
-    }
+    }   
 
 }

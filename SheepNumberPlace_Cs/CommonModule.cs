@@ -56,7 +56,37 @@ namespace SheepNumberPlace_Cs
 
         }
 
-        
+        public int Generate_Random_FromList(List<int> rndList)
+        {
+            List<int> excludeNo = new List<int>();
+            return Generate_Random_FromList(rndList, excludeNo);
+        }
+
+        public int Generate_Random_FromList(List<int> rndList, List<int> excludeNo)
+        {
+            int i, rnd;
+
+            if (excludeNo.Count > 0)
+            {
+                for (i = 0; i < excludeNo.Count; i++)
+                {
+//                    do {
+                        rndList.Remove(excludeNo[i]);
+//                    } while (rndList.IndexOf(excludeNo[i]) >= 0);
+                }
+            }
+
+            if (rndList.Count == 0)
+            {
+                return 0;
+            }
+
+            rnd = r.Next(rndList.Count);
+
+            return rndList[rnd];
+
+        }
+
         //'
         //'  n個の中からm個を選ぶ際の組み合わせ数を取得
         //'
