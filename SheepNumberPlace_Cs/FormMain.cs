@@ -95,17 +95,7 @@ namespace SheepNumberPlace_Cs
         {
             Control ctl2;
 
-            //int[] testarray = new int[] { 1, 2, 3, 4, 5 };
-
-            //Array.Resize(ref testarray, testarray.Length - 1);
-
-            //foreach (int s in testarray)
-            //{
-            //    Debug.Write(Convert.ToString(s) + ",");
-            //}
-
-            //Environment.Exit(0);
-
+  
 
             PaletteColor = new Color[] { Color.White, Color.LightBlue, Color.LightGreen, Color.LightPink, Color.LightSalmon, Color.White, Color.White };
 
@@ -182,7 +172,7 @@ namespace SheepNumberPlace_Cs
             Display_NewQuestion();
 
             //Call Switch_KeypadDisplay();
-            //Call Switch_ToolButtonEnabled();
+            Switch_ToolButtonEnabled();
 
             ToolStripProfessionalRenderer proRenderer = new ToolStripProfessionalRenderer();
 
@@ -217,22 +207,21 @@ namespace SheepNumberPlace_Cs
 
         private void Reset_History()
         {
-            int n;
+            int i, j, n = 0;
 
-            enterHistory = new Coordinate[0];
-            Array.Resize(ref enterHistory, 1);
+            enterHistory = new Coordinate[1];
             enterHistory[0] = new Coordinate();
             currentHistoryNo = 0;
             ChangeFlg = false;
 
             if (AnalyzeMode == true)
             {
-                enterHistoryB = new Coordinate[0];
+                enterHistoryB = new Coordinate[1];
                 enterHistoryB[0] = new Coordinate();
-                n = 0;
-                for (int j = 0; j <= GridCount; j++)
+
+                for (j = 1; j <= GridCount; j++)
                 {
-                    for (int i = 0; i <= GridCount; i++)
+                    for (i = 1; i <= GridCount; i++)
                     {
                         if (SudokuNumberGrid[i, j].FixNo > 0)
                         {
@@ -242,7 +231,7 @@ namespace SheepNumberPlace_Cs
                             enterHistoryB[n].Y = j;
                             enterHistoryB[n].No = SudokuNumberGrid[i, j].FixNo;
                             enterHistoryB[n].NoB = 1;
-                            n = n + 1;
+                            n++;
                         }
                     }
                 }
@@ -275,11 +264,10 @@ namespace SheepNumberPlace_Cs
                 menuToolbar.Tag = Convert.ToString(ToolbarArray[i, 0]) + Convert.ToString(ToolbarArray[i, 4]) + Convert.ToString(ToolbarArray[i, 5]);
                 menuToolbar.Checked = true;
                 ToolboxInfo[Convert.ToInt32(ToolbarArray[i, 0])].Visible = true;
-                menuToolbar.Checked = true;
                 ToolboxInfo[Convert.ToInt32(ToolbarArray[i, 0])].Name = ToolbarArray[i, 1];
                 ToolboxInfo[Convert.ToInt32(ToolbarArray[i, 0])].Margin = Convert.ToInt32(ToolbarArray[i, 3]);
 
-                //                menuToolbar.Click += new EventHandler(Menu_ToolbarChild_Click);
+                menuToolbar.Click += new EventHandler(Menu_ToolbarChild_Click);
                 this.Menu_Display.DropDownItems.Insert(i + 2, menuToolbar);
             }
 
@@ -298,7 +286,7 @@ namespace SheepNumberPlace_Cs
                 }
             }
             CompleteFlg = false;
-            //            Reset_History();
+            Reset_History();
             ChangeFlg = false;
         }
 
@@ -847,8 +835,8 @@ namespace SheepNumberPlace_Cs
             }
 
             GridMsg = "";
-            //            Reset_Hint();
-            //            Reset_AnswerCheck();
+            Reset_Hint();
+            Reset_AnswerCheck();
 
             myPicturebox.Invalidate();
             memoPicturebox.Invalidate();
@@ -1614,10 +1602,6 @@ namespace SheepNumberPlace_Cs
             }
         }
 
-
-
-
-
         private void Set_Menu_SizeInfo()
         {
 
@@ -1651,6 +1635,21 @@ namespace SheepNumberPlace_Cs
                 this.Menu_Size.DropDownItems.Add(menuSize);
             }
         }
+
+
+        private void Menu_ToolbarChild_Click(Object sender, EventArgs e)
+        {
+            ToolStripMenuItem curTool = (ToolStripMenuItem)sender;
+
+            ToolboxInfo[Convert.ToInt32(Convert.ToString(curTool.Tag).Substring(0, 1))].Visible = !curTool.Checked;
+
+            curTool.Checked = !curTool.Checked;
+
+            Set_Grid(this.PictureBoxGrid, this.PictureBoxMemo, this.PictureBoxPalette, this.PictureBoxHighlight);
+
+
+        }
+
 
         private void Set_Grid(PictureBox myPicturebox, PictureBox memoPicturebox, PictureBox palettePicturebox, PictureBox highlightPicturebox)
         {
@@ -1998,8 +1997,8 @@ namespace SheepNumberPlace_Cs
 
             Adjust_ProspectNo(ref SudokuNumberGrid);
             Add_enterHistory();
-            //Reset_Hint();
-            //Reset_AnswerCheck();
+            Reset_Hint();
+            Reset_AnswerCheck();
 
             if (AnalyzeMode == false)
             {
@@ -2093,7 +2092,7 @@ namespace SheepNumberPlace_Cs
 
         private void Change_Mode()
         {
-            Change_Mode(false);
+            Change_Mode(true);
         }
 
 
@@ -2145,7 +2144,7 @@ namespace SheepNumberPlace_Cs
             //          MessageBox.Show(Convert.ToString(AnalyzeMode)); 
 
             GridMsg = "";
-            //            Reset_Hint();
+            Reset_Hint();
 
             Set_Grid(this.PictureBoxGrid, this.PictureBoxMemo, this.PictureBoxPalette, this.PictureBoxHighlight);
         }
@@ -2255,7 +2254,7 @@ namespace SheepNumberPlace_Cs
             CurrentGridY = Convert.ToInt32(Math.Floor(Convert.ToDecimal(GridCount / 2))) + GridCount % 2;
 
             GridMsg = "";
-            //            Reset_Hint();
+            Reset_Hint();
             Set_Grid(this.PictureBoxGrid, this.PictureBoxMemo, this.PictureBoxPalette, this.PictureBoxHighlight);
 
             Display_NewQuestion();
@@ -4864,6 +4863,47 @@ namespace SheepNumberPlace_Cs
             }
 
             return false;
+
+        }
+
+
+        private void Reset_Hint() {
+
+            int i, j;
+
+            //'ヒント表示でエラー発見時
+            if (SolveHint.No == 99) {
+                for (j = 1; j <= GridCount; j++)
+                {
+                    for (i = 1; i <= GridCount; i++)
+                    {
+                        SudokuNumberGrid[i, j].FixError = false;
+                    }
+                }
+            }
+            SolveHint = new Coordinate();
+            HintTimer.Stop();
+            HintFlg = false;
+
+            this.PictureBoxGrid.Invalidate();
+            this.Tool_Hint.Checked = false;
+
+        }
+
+
+        private void Reset_AnswerCheck()
+        {
+            int i, j;
+
+            CheckAnswerFlg = false;
+            for (j = 1; j <= GridCount; j++)
+            {
+                for (i = 1; i <= GridCount; i++)
+                {
+                    SudokuNumberGrid[i, j].FixError = false;
+                }
+            }
+            this.Tool_CheckAnswer.Checked = false;
 
         }
 
