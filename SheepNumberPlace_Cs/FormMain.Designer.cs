@@ -65,10 +65,6 @@
             this.ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.Panel_PictureBox = new System.Windows.Forms.Panel();
-            this.Panel_ChkBox = new System.Windows.Forms.Panel();
-            this.Chk_SymmetricGrid = new System.Windows.Forms.CheckBox();
-            this.Chk_DisplayProspect = new System.Windows.Forms.CheckBox();
             this.Btn_Previous = new System.Windows.Forms.ToolStripButton();
             this.Btn_Next = new System.Windows.Forms.ToolStripButton();
             this.Tool_File_Load = new System.Windows.Forms.ToolStripButton();
@@ -79,18 +75,22 @@
             this.Tool_Reset = new System.Windows.Forms.ToolStripButton();
             this.Tool_DisplayAnswer = new System.Windows.Forms.ToolStripButton();
             this.Tool_ResetAnswer = new System.Windows.Forms.ToolStripButton();
+            this.Panel_PictureBox = new System.Windows.Forms.Panel();
             this.PictureBoxPalette = new System.Windows.Forms.PictureBox();
             this.PictureBoxGrid = new System.Windows.Forms.PictureBox();
             this.PictureBoxMemo = new System.Windows.Forms.PictureBox();
             this.PictureBoxHighlight = new System.Windows.Forms.PictureBox();
+            this.Panel_ChkBox = new System.Windows.Forms.Panel();
+            this.Chk_SymmetricGrid = new System.Windows.Forms.CheckBox();
+            this.Chk_DisplayProspect = new System.Windows.Forms.CheckBox();
             this.MenuStrip1.SuspendLayout();
             this.ToolStrip1.SuspendLayout();
             this.Panel_PictureBox.SuspendLayout();
-            this.Panel_ChkBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxPalette)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxMemo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxHighlight)).BeginInit();
+            this.Panel_ChkBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // OpenFileDialog1
@@ -105,19 +105,19 @@
             this.Menu_Help.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.Menu_Help.Name = "Menu_Help";
             this.Menu_Help.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
-            this.Menu_Help.Size = new System.Drawing.Size(52, 24);
+            this.Menu_Help.Size = new System.Drawing.Size(63, 31);
             this.Menu_Help.Text = "Help(&H)";
             // 
             // Menu_Operation
             // 
             this.Menu_Operation.Name = "Menu_Operation";
-            this.Menu_Operation.Size = new System.Drawing.Size(154, 22);
+            this.Menu_Operation.Size = new System.Drawing.Size(188, 26);
             this.Menu_Operation.Text = "Document（Web）";
             // 
             // Menu_VersionInfo
             // 
             this.Menu_VersionInfo.Name = "Menu_VersionInfo";
-            this.Menu_VersionInfo.Size = new System.Drawing.Size(154, 22);
+            this.Menu_VersionInfo.Size = new System.Drawing.Size(188, 26);
             this.Menu_VersionInfo.Text = "Version";
             // 
             // LblLevel
@@ -125,9 +125,10 @@
             this.LblLevel.BackColor = System.Drawing.Color.Transparent;
             this.LblLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.LblLevel.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.LblLevel.Location = new System.Drawing.Point(374, 553);
+            this.LblLevel.Location = new System.Drawing.Point(499, 691);
+            this.LblLevel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblLevel.Name = "LblLevel";
-            this.LblLevel.Size = new System.Drawing.Size(154, 20);
+            this.LblLevel.Size = new System.Drawing.Size(205, 25);
             this.LblLevel.TabIndex = 108;
             this.LblLevel.Text = "難易度";
             // 
@@ -147,7 +148,7 @@
             this.Menu_SelectMode.Name = "Menu_SelectMode";
             this.Menu_SelectMode.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.Menu_SelectMode.ShowShortcutKeys = false;
-            this.Menu_SelectMode.Size = new System.Drawing.Size(57, 24);
+            this.Menu_SelectMode.Size = new System.Drawing.Size(70, 31);
             this.Menu_SelectMode.Text = "Mode(&M)";
             // 
             // Menu_Level
@@ -157,18 +158,18 @@
             this.Menu_Level.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.Menu_Level.ShortcutKeyDisplayString = "";
             this.Menu_Level.ShowShortcutKeys = false;
-            this.Menu_Level.Size = new System.Drawing.Size(75, 24);
+            this.Menu_Level.Size = new System.Drawing.Size(94, 31);
             this.Menu_Level.Text = "Set Level(&L)";
             // 
             // Menu_ResetAnswer
             // 
             this.Menu_ResetAnswer.Name = "Menu_ResetAnswer";
-            this.Menu_ResetAnswer.Size = new System.Drawing.Size(215, 22);
+            this.Menu_ResetAnswer.Size = new System.Drawing.Size(255, 26);
             this.Menu_ResetAnswer.Text = "Reset Display Right Answer";
             // 
             // RightToolStripPanel
             // 
-            this.RightToolStripPanel.Location = new System.Drawing.Point(-122, -156);
+            this.RightToolStripPanel.Location = new System.Drawing.Point(-163, -195);
             this.RightToolStripPanel.Name = "RightToolStripPanel";
             this.RightToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.RightToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -176,7 +177,7 @@
             // 
             // LeftToolStripPanel
             // 
-            this.LeftToolStripPanel.Location = new System.Drawing.Point(-122, -156);
+            this.LeftToolStripPanel.Location = new System.Drawing.Point(-163, -195);
             this.LeftToolStripPanel.Name = "LeftToolStripPanel";
             this.LeftToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.LeftToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -189,6 +190,7 @@
             this.MenuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.MenuStrip1.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.MenuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 0);
+            this.MenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.MenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Menu_File,
             this.Menu_Display,
@@ -198,7 +200,8 @@
             this.Menu_Help});
             this.MenuStrip1.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip1.Name = "MenuStrip1";
-            this.MenuStrip1.Size = new System.Drawing.Size(570, 28);
+            this.MenuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
+            this.MenuStrip1.Size = new System.Drawing.Size(760, 35);
             this.MenuStrip1.TabIndex = 107;
             this.MenuStrip1.Text = "MenuStrip1";
             // 
@@ -214,35 +217,35 @@
             this.Menu_File.Padding = new System.Windows.Forms.Padding(0);
             this.Menu_File.ShortcutKeyDisplayString = "";
             this.Menu_File.ShowShortcutKeys = false;
-            this.Menu_File.Size = new System.Drawing.Size(43, 24);
+            this.Menu_File.Size = new System.Drawing.Size(51, 31);
             this.Menu_File.Text = "File(&F)";
             // 
             // Menu_File_Load
             // 
             this.Menu_File_Load.Name = "Menu_File_Load";
             this.Menu_File_Load.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.Menu_File_Load.Size = new System.Drawing.Size(193, 22);
+            this.Menu_File_Load.Size = new System.Drawing.Size(233, 26);
             this.Menu_File_Load.Text = "Load Game Data";
             // 
             // Menu_File_Save
             // 
             this.Menu_File_Save.Name = "Menu_File_Save";
             this.Menu_File_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.Menu_File_Save.Size = new System.Drawing.Size(193, 22);
+            this.Menu_File_Save.Size = new System.Drawing.Size(233, 26);
             this.Menu_File_Save.Text = "Save Game Data";
             // 
             // Menu_NewQuestion
             // 
             this.Menu_NewQuestion.Name = "Menu_NewQuestion";
             this.Menu_NewQuestion.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.Menu_NewQuestion.Size = new System.Drawing.Size(193, 22);
+            this.Menu_NewQuestion.Size = new System.Drawing.Size(233, 26);
             this.Menu_NewQuestion.Text = "New Question";
             // 
             // Menu_Quit
             // 
             this.Menu_Quit.Name = "Menu_Quit";
             this.Menu_Quit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
-            this.Menu_Quit.Size = new System.Drawing.Size(193, 22);
+            this.Menu_Quit.Size = new System.Drawing.Size(233, 26);
             this.Menu_Quit.Text = "Quit Game";
             // 
             // Menu_Display
@@ -255,25 +258,25 @@
             this.Menu_Display.Name = "Menu_Display";
             this.Menu_Display.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.Menu_Display.ShowShortcutKeys = false;
-            this.Menu_Display.Size = new System.Drawing.Size(67, 24);
+            this.Menu_Display.Size = new System.Drawing.Size(78, 31);
             this.Menu_Display.Text = "Display(&V)";
             // 
             // Menu_Size
             // 
             this.Menu_Size.Name = "Menu_Size";
-            this.Menu_Size.Size = new System.Drawing.Size(149, 22);
+            this.Menu_Size.Size = new System.Drawing.Size(179, 26);
             this.Menu_Size.Text = "Size";
             // 
             // ToolStripSeparator1
             // 
             this.ToolStripSeparator1.Name = "ToolStripSeparator1";
-            this.ToolStripSeparator1.Size = new System.Drawing.Size(146, 6);
+            this.ToolStripSeparator1.Size = new System.Drawing.Size(176, 6);
             // 
             // Menu_DisplayKeypad
             // 
             this.Menu_DisplayKeypad.Name = "Menu_DisplayKeypad";
             this.Menu_DisplayKeypad.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.K)));
-            this.Menu_DisplayKeypad.Size = new System.Drawing.Size(149, 22);
+            this.Menu_DisplayKeypad.Size = new System.Drawing.Size(179, 26);
             this.Menu_DisplayKeypad.Text = "Key Pad";
             // 
             // Menu_Assistant
@@ -289,48 +292,48 @@
             this.Menu_Assistant.Padding = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.Menu_Assistant.ShortcutKeyDisplayString = "";
             this.Menu_Assistant.ShowShortcutKeys = false;
-            this.Menu_Assistant.Size = new System.Drawing.Size(78, 24);
+            this.Menu_Assistant.Size = new System.Drawing.Size(92, 31);
             this.Menu_Assistant.Text = "Assistant(&A)";
             // 
             // Menu_Hint
             // 
             this.Menu_Hint.Name = "Menu_Hint";
             this.Menu_Hint.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.Menu_Hint.Size = new System.Drawing.Size(215, 22);
+            this.Menu_Hint.Size = new System.Drawing.Size(255, 26);
             this.Menu_Hint.Text = "Hint";
             // 
             // Menu_CheckAnswer
             // 
             this.Menu_CheckAnswer.Name = "Menu_CheckAnswer";
             this.Menu_CheckAnswer.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.Menu_CheckAnswer.Size = new System.Drawing.Size(215, 22);
+            this.Menu_CheckAnswer.Size = new System.Drawing.Size(255, 26);
             this.Menu_CheckAnswer.Text = "Check Answer";
             // 
             // Menu_Reset
             // 
             this.Menu_Reset.Name = "Menu_Reset";
             this.Menu_Reset.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.Menu_Reset.Size = new System.Drawing.Size(215, 22);
+            this.Menu_Reset.Size = new System.Drawing.Size(255, 26);
             this.Menu_Reset.Text = "Reset";
             // 
             // Menu_DisplayAnswer
             // 
             this.Menu_DisplayAnswer.Name = "Menu_DisplayAnswer";
-            this.Menu_DisplayAnswer.Size = new System.Drawing.Size(215, 22);
+            this.Menu_DisplayAnswer.Size = new System.Drawing.Size(255, 26);
             this.Menu_DisplayAnswer.Text = "Display Right Answer";
             // 
             // TopToolStripPanel
             // 
             this.TopToolStripPanel.BackColor = System.Drawing.Color.Red;
-            this.TopToolStripPanel.Location = new System.Drawing.Point(-112, -146);
+            this.TopToolStripPanel.Location = new System.Drawing.Point(-149, -182);
             this.TopToolStripPanel.Name = "TopToolStripPanel";
             this.TopToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.TopToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.TopToolStripPanel.Size = new System.Drawing.Size(100, 100);
+            this.TopToolStripPanel.Size = new System.Drawing.Size(133, 125);
             // 
             // BottomToolStripPanel
             // 
-            this.BottomToolStripPanel.Location = new System.Drawing.Point(-122, -156);
+            this.BottomToolStripPanel.Location = new System.Drawing.Point(-163, -195);
             this.BottomToolStripPanel.Name = "BottomToolStripPanel";
             this.BottomToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
             this.BottomToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -374,56 +377,12 @@
             this.Tool_Reset,
             this.Tool_DisplayAnswer,
             this.Tool_ResetAnswer});
-            this.ToolStrip1.Location = new System.Drawing.Point(0, 28);
+            this.ToolStrip1.Location = new System.Drawing.Point(0, 35);
             this.ToolStrip1.Name = "ToolStrip1";
-            this.ToolStrip1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 3);
-            this.ToolStrip1.Size = new System.Drawing.Size(570, 40);
+            this.ToolStrip1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 4);
+            this.ToolStrip1.Size = new System.Drawing.Size(760, 41);
             this.ToolStrip1.TabIndex = 109;
             this.ToolStrip1.Text = "ToolStrip1";
-            // 
-            // Panel_PictureBox
-            // 
-            this.Panel_PictureBox.AutoSize = true;
-            this.Panel_PictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.Panel_PictureBox.Controls.Add(this.PictureBoxPalette);
-            this.Panel_PictureBox.Controls.Add(this.PictureBoxGrid);
-            this.Panel_PictureBox.Controls.Add(this.PictureBoxMemo);
-            this.Panel_PictureBox.Controls.Add(this.PictureBoxHighlight);
-            this.Panel_PictureBox.Location = new System.Drawing.Point(0, 0);
-            this.Panel_PictureBox.Name = "Panel_PictureBox";
-            this.Panel_PictureBox.Size = new System.Drawing.Size(253, 494);
-            this.Panel_PictureBox.TabIndex = 120;
-            // 
-            // Panel_ChkBox
-            // 
-            this.Panel_ChkBox.Controls.Add(this.Chk_SymmetricGrid);
-            this.Panel_ChkBox.Controls.Add(this.Chk_DisplayProspect);
-            this.Panel_ChkBox.Location = new System.Drawing.Point(12, 511);
-            this.Panel_ChkBox.Name = "Panel_ChkBox";
-            this.Panel_ChkBox.Size = new System.Drawing.Size(345, 19);
-            this.Panel_ChkBox.TabIndex = 121;
-            // 
-            // Chk_SymmetricGrid
-            // 
-            this.Chk_SymmetricGrid.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Chk_SymmetricGrid.Location = new System.Drawing.Point(125, 0);
-            this.Chk_SymmetricGrid.Name = "Chk_SymmetricGrid";
-            this.Chk_SymmetricGrid.Size = new System.Drawing.Size(157, 18);
-            this.Chk_SymmetricGrid.TabIndex = 99;
-            this.Chk_SymmetricGrid.TabStop = false;
-            this.Chk_SymmetricGrid.Text = "Highlight symmetric Grid(S)";
-            this.Chk_SymmetricGrid.UseVisualStyleBackColor = true;
-            // 
-            // Chk_DisplayProspect
-            // 
-            this.Chk_DisplayProspect.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Chk_DisplayProspect.Location = new System.Drawing.Point(3, 0);
-            this.Chk_DisplayProspect.Name = "Chk_DisplayProspect";
-            this.Chk_DisplayProspect.Size = new System.Drawing.Size(116, 18);
-            this.Chk_DisplayProspect.TabIndex = 98;
-            this.Chk_DisplayProspect.TabStop = false;
-            this.Chk_DisplayProspect.Text = "Display prospect No(P)";
-            this.Chk_DisplayProspect.UseVisualStyleBackColor = true;
             // 
             // Btn_Previous
             // 
@@ -509,6 +468,7 @@
             this.Tool_Hint.Size = new System.Drawing.Size(40, 35);
             this.Tool_Hint.Text = "hint";
             this.Tool_Hint.ToolTipText = "hint";
+            this.Tool_Hint.Click += new System.EventHandler(this.Tool_Hint_Click);
             // 
             // Tool_CheckAnswer
             // 
@@ -569,47 +529,99 @@
             this.Tool_ResetAnswer.Text = "Reset Right Answer Check";
             this.Tool_ResetAnswer.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             // 
+            // Panel_PictureBox
+            // 
+            this.Panel_PictureBox.AutoSize = true;
+            this.Panel_PictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.Panel_PictureBox.Controls.Add(this.PictureBoxPalette);
+            this.Panel_PictureBox.Controls.Add(this.PictureBoxGrid);
+            this.Panel_PictureBox.Controls.Add(this.PictureBoxMemo);
+            this.Panel_PictureBox.Controls.Add(this.PictureBoxHighlight);
+            this.Panel_PictureBox.Location = new System.Drawing.Point(0, 0);
+            this.Panel_PictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Panel_PictureBox.Name = "Panel_PictureBox";
+            this.Panel_PictureBox.Size = new System.Drawing.Size(337, 618);
+            this.Panel_PictureBox.TabIndex = 120;
+            // 
             // PictureBoxPalette
             // 
             this.PictureBoxPalette.BackColor = System.Drawing.Color.Transparent;
-            this.PictureBoxPalette.Location = new System.Drawing.Point(12, 207);
+            this.PictureBoxPalette.Location = new System.Drawing.Point(16, 259);
+            this.PictureBoxPalette.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PictureBoxPalette.Name = "PictureBoxPalette";
-            this.PictureBoxPalette.Size = new System.Drawing.Size(55, 32);
+            this.PictureBoxPalette.Size = new System.Drawing.Size(73, 40);
             this.PictureBoxPalette.TabIndex = 92;
             this.PictureBoxPalette.TabStop = false;
             // 
             // PictureBoxGrid
             // 
             this.PictureBoxGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PictureBoxGrid.Location = new System.Drawing.Point(12, 71);
+            this.PictureBoxGrid.Location = new System.Drawing.Point(16, 89);
+            this.PictureBoxGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PictureBoxGrid.Name = "PictureBoxGrid";
-            this.PictureBoxGrid.Size = new System.Drawing.Size(55, 54);
+            this.PictureBoxGrid.Size = new System.Drawing.Size(73, 68);
             this.PictureBoxGrid.TabIndex = 0;
             this.PictureBoxGrid.TabStop = false;
             // 
             // PictureBoxMemo
             // 
             this.PictureBoxMemo.BackColor = System.Drawing.Color.Transparent;
-            this.PictureBoxMemo.Location = new System.Drawing.Point(12, 169);
+            this.PictureBoxMemo.Location = new System.Drawing.Point(16, 211);
+            this.PictureBoxMemo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PictureBoxMemo.Name = "PictureBoxMemo";
-            this.PictureBoxMemo.Size = new System.Drawing.Size(55, 32);
+            this.PictureBoxMemo.Size = new System.Drawing.Size(73, 40);
             this.PictureBoxMemo.TabIndex = 81;
             this.PictureBoxMemo.TabStop = false;
             // 
             // PictureBoxHighlight
             // 
             this.PictureBoxHighlight.BackColor = System.Drawing.Color.Transparent;
-            this.PictureBoxHighlight.Location = new System.Drawing.Point(12, 131);
+            this.PictureBoxHighlight.Location = new System.Drawing.Point(16, 164);
+            this.PictureBoxHighlight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.PictureBoxHighlight.Name = "PictureBoxHighlight";
-            this.PictureBoxHighlight.Size = new System.Drawing.Size(55, 32);
+            this.PictureBoxHighlight.Size = new System.Drawing.Size(73, 40);
             this.PictureBoxHighlight.TabIndex = 93;
             this.PictureBoxHighlight.TabStop = false;
             // 
+            // Panel_ChkBox
+            // 
+            this.Panel_ChkBox.Controls.Add(this.Chk_SymmetricGrid);
+            this.Panel_ChkBox.Controls.Add(this.Chk_DisplayProspect);
+            this.Panel_ChkBox.Location = new System.Drawing.Point(16, 639);
+            this.Panel_ChkBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Panel_ChkBox.Name = "Panel_ChkBox";
+            this.Panel_ChkBox.Size = new System.Drawing.Size(460, 24);
+            this.Panel_ChkBox.TabIndex = 121;
+            // 
+            // Chk_SymmetricGrid
+            // 
+            this.Chk_SymmetricGrid.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Chk_SymmetricGrid.Location = new System.Drawing.Point(167, 0);
+            this.Chk_SymmetricGrid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Chk_SymmetricGrid.Name = "Chk_SymmetricGrid";
+            this.Chk_SymmetricGrid.Size = new System.Drawing.Size(209, 22);
+            this.Chk_SymmetricGrid.TabIndex = 99;
+            this.Chk_SymmetricGrid.TabStop = false;
+            this.Chk_SymmetricGrid.Text = "Highlight symmetric Grid(S)";
+            this.Chk_SymmetricGrid.UseVisualStyleBackColor = true;
+            // 
+            // Chk_DisplayProspect
+            // 
+            this.Chk_DisplayProspect.Font = new System.Drawing.Font("MS UI Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.Chk_DisplayProspect.Location = new System.Drawing.Point(4, 0);
+            this.Chk_DisplayProspect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Chk_DisplayProspect.Name = "Chk_DisplayProspect";
+            this.Chk_DisplayProspect.Size = new System.Drawing.Size(155, 22);
+            this.Chk_DisplayProspect.TabIndex = 98;
+            this.Chk_DisplayProspect.TabStop = false;
+            this.Chk_DisplayProspect.Text = "Display prospect No(P)";
+            this.Chk_DisplayProspect.UseVisualStyleBackColor = true;
+            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(570, 578);
+            this.ClientSize = new System.Drawing.Size(760, 722);
             this.Controls.Add(this.Panel_ChkBox);
             this.Controls.Add(this.ToolStrip1);
             this.Controls.Add(this.LblLevel);
@@ -620,6 +632,7 @@
             this.Controls.Add(this.BottomToolStripPanel);
             this.Controls.Add(this.Panel_PictureBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FormMain";
             this.Text = "Sheep Number Place";
             this.Load += new System.EventHandler(this.FormMain_Load);
@@ -628,11 +641,11 @@
             this.ToolStrip1.ResumeLayout(false);
             this.ToolStrip1.PerformLayout();
             this.Panel_PictureBox.ResumeLayout(false);
-            this.Panel_ChkBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxPalette)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxMemo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxHighlight)).EndInit();
+            this.Panel_ChkBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
