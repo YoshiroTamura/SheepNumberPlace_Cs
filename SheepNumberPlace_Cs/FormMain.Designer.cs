@@ -468,7 +468,7 @@
             this.Tool_Hint.Size = new System.Drawing.Size(40, 35);
             this.Tool_Hint.Text = "hint";
             this.Tool_Hint.ToolTipText = "hint";
-            this.Tool_Hint.Click += new System.EventHandler(this.Tool_Hint_Click);
+
             // 
             // Tool_CheckAnswer
             // 

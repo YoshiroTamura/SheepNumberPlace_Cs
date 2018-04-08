@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Configuration;
 using System.Security.Cryptography;
-
+using System.Windows.Forms;
 
 namespace SheepNumberPlace_Cs
 {
@@ -100,6 +100,117 @@ namespace SheepNumberPlace_Cs
             }
 
             return Convert.ToInt32(sn / sm);
+
+        }
+        
+
+        public String Get_FilePath_OpenSave(FileDialog myDialog, String strExtension = "pzn")
+        {
+            DialogResult ret;
+            int fNo = 0;
+
+            myDialog.RestoreDirectory = true;
+            myDialog.InitialDirectory  = Get_PuzzleDirName(strExtension, ref fNo);
+            if (strExtension == "pzn") {
+                myDialog.Filter = "Sudoku File（*.pzn）|*.pzn";
+            } else if (strExtension == "txt")
+            {
+                myDialog.Filter = "Text File（*.txt）|*.txt";
+            } else if (strExtension == "csv")
+            {
+                myDialog.Filter = "Csv File（*.csv）|*.csv";
+            } else
+            {
+                myDialog.Filter = "All File（*.*）|*.*";
+            }
+            myDialog.FileName = "";
+            if (Convert.ToString(myDialog.Tag) == "Save") {
+                if (strExtension == "pzn") {
+                    myDialog.FileName = "NumPlace" + String.Format("{0:D3}", fNo + 1);
+                }
+            }
+
+            //'ダイアログボックスを表示し、［保存］ボタンが選択されたらファイル名を表示
+            ret = myDialog.ShowDialog();
+            if (ret == DialogResult.OK) {
+                return myDialog.FileName;
+            }
+
+            return "";
+
+        }
+
+
+        public String Get_PuzzleDirName(String strExtension, ref int fNo) {
+
+            String myCrossDir = "\\PuzzleData";
+            String myDirName, myDrvName, strFileName;
+            int currentNo = 0;
+            String returnStr = System.IO.Directory.GetCurrentDirectory();
+            bool endLoop = false;
+
+            //        Get_PuzzleDirName = IO.Directory.GetCurrentDirectory
+
+            myDirName = System.IO.Directory.GetCurrentDirectory();
+            myDrvName = System.IO.Directory.GetDirectoryRoot(myDirName);
+            fNo = 0;
+
+            //F_Loop:
+
+            do
+            {
+                endLoop = true;
+                if (System.IO.Directory.Exists(myDirName + myCrossDir) == true)
+                {
+                    returnStr = myDirName + myCrossDir;
+                }
+                else
+                {
+                    if (myDirName != myDrvName)
+                    {
+                        myDirName = System.IO.Directory.GetParent(myDirName).FullName;
+                        endLoop = false;
+                        //                    GoTo F_Loop;
+                    }
+                }
+
+            } while (endLoop == false);
+
+            strFileName = "";
+            if (strExtension == "pzn") {
+                strFileName = "NumPlace*.pzn";
+            }
+
+            foreach (String strPuzzleFile in System.IO.Directory.GetFiles(returnStr, strFileName))
+            {
+                currentNo = Get_Number_From_String(System.IO.Path.GetFileName(strPuzzleFile));
+                if (currentNo > fNo) {
+                    fNo = currentNo;
+                }
+            }
+
+            return returnStr;
+
+        }
+
+        public int Get_Number_From_String(String strNum)
+        {
+            int i;
+            String curNumber = "";
+            double d;
+
+            for (i = 0; i < strNum.Length; i++)
+            {
+                if (double.TryParse(strNum.Substring(i, 1), out d))
+                {
+                    curNumber += strNum.Substring(i, 1);
+                } else if (curNumber.Length > 0)
+                {
+                    return Convert.ToInt32(curNumber); 
+                }
+            }
+
+            return 0;
 
         }
 
