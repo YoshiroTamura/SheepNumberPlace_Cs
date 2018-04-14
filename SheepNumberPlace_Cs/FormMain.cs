@@ -362,6 +362,11 @@ namespace SheepNumberPlace_Cs
 
             Tool_NewQuestion.Click += new EventHandler(Tool_NewQuestion_Click);
             Menu_NewQuestion.Click += new EventHandler(Tool_NewQuestion_Click);
+
+            Tool_File_Load.Click += new EventHandler(Menu_File_Load_Click);
+            Menu_File_Load.Click += new EventHandler(Menu_File_Load_Click);
+            Tool_File_Save.Click += new EventHandler(Menu_File_Save_Click);
+            Menu_File_Save.Click += new EventHandler(Menu_File_Save_Click);
         }
 
 
@@ -2396,6 +2401,98 @@ namespace SheepNumberPlace_Cs
         }
 
 
+        private void Save_NumLogicData(String FilePath)
+        {
+
+            int i, j, n, c;
+            int intFileType = 1;
+            String strLine = "", strTitle = "";
+            bool workFlag = false, memoFlag = false;
+
+            try {
+                System.IO.StreamWriter wfile = new System.IO.StreamWriter(FilePath, false, System.Text.Encoding.GetEncoding(932));
+                for (j = 1; j <= GridCount; j++)
+                {
+                    strLine = "";
+                    for (i = 1; i <= GridCount; i++)
+                    {
+                        if (SudokuNumberGrid[i, j].Locked == true)
+                        {
+                            strLine += Convert.ToString(SudokuNumberGrid[i, j].FixNo);
+                        }
+                        else
+                        {
+                            strLine += "0";
+                            if (SudokuNumberGrid[i, j].FixNo > 0)
+                            {
+                                workFlag = true;
+                            }
+                            if (SudokuNumberGrid[i, j].MemoNo.Count > 0 || SudokuNumberGrid[i, j].BackColor != Color.White)
+                            {
+                                memoFlag = true;
+                            }
+                        }
+                    }
+                    wfile.WriteLine(strLine);
+                }
+
+                //'解答途中データを保存
+                if (workFlag == true)
+                {
+                    wfile.WriteLine("Work");
+                    for (j = 1; j <= GridCount; j++)
+                    {
+                        strLine = "";
+                        for (i = 1; i <= GridCount; i++)
+                        {
+                            strLine += Convert.ToString(SudokuNumberGrid[i, j].FixNo);
+                        }
+                        wfile.WriteLine(strLine);
+                    }
+                }
+
+                //'メモデータを保存
+                if (memoFlag == true)
+                {
+                    wfile.WriteLine("Memo");
+                    for (j = 1; j <= GridCount; j++)
+                    {
+                        for (i = 1; i <= GridCount; i++)
+                        {
+                            strLine = "";
+                            for (n = 0; n < SudokuNumberGrid[i, j].MemoNo.Count; n++)
+                            {
+                                strLine += "," + Convert.ToString(SudokuNumberGrid[i, j].MemoNo[n]);
+                            }
+                            c = Get_ColorNo(SudokuNumberGrid[i, j].BackColor);
+                            if (strLine.Length > 0 || c > 0)
+                            {
+                                wfile.WriteLine(Convert.ToString(i) + "," + Convert.ToString(j) + "," + Convert.ToString(c) + strLine);
+                            }
+                        }
+
+                    }
+                }
+
+                double d;
+                if (double.TryParse(Convert.ToString(this.LblLevel.Tag), out d))
+                {
+                    wfile.WriteLine("Level:" + Convert.ToString(this.LblLevel.Tag));
+                }
+
+                wfile.Close();
+                ChangeFlg = false;
+
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.WriteLine(ex.Message);
+                return;
+            }
+
+        }
+
+
 
         private void Load_NumLogicData(String FilePath)
         {
@@ -2462,8 +2559,10 @@ namespace SheepNumberPlace_Cs
                     {
                         String[] txtLineArray = txtLines[j].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                         if (txtLineArray.Length >= 2) {
-                            if (double.TryParse(txtLineArray[0], out d) && Convert.ToBoolean(txtLineArray[1]) == true)
+ //                           Debug.WriteLine("----------------------------------------> "+txtLineArray[0] + " :" + txtLineArray[1]);
+                            if (double.TryParse(txtLineArray[0], out d) && double.TryParse(txtLineArray[1], out d))
                             {
+
                                 x = Convert.ToInt32(txtLineArray[0]);
                                 y = Convert.ToInt32(txtLineArray[1]);
                                 if (x >= 1 && x <= GridCount && y >= 1 && y <= GridCount) {
@@ -2605,6 +2704,19 @@ namespace SheepNumberPlace_Cs
 
         }
 
+
+        private int Get_ColorNo(Color myColor) {
+
+            int i;
+
+            for (i = 0; i < PaletteColor.Length; i++) {
+                if (PaletteColor[i] == myColor) {
+                    return i;
+                }
+            }
+
+            return 0;
+        }
 
 
         private void Create_NewQuestion(int assignCnt, ref int FixCnt)
@@ -5716,6 +5828,26 @@ namespace SheepNumberPlace_Cs
 
         }
 
+        private void Menu_File_Save_Click(Object sender, EventArgs e) {
+            //Handles Menu_File_Save.Click, Tool_File_Save.Click
+
+            String FilePath;
+
+            if (Check_FixAll() == true && AnalyzeMode == false) {
+                return;
+            }
+
+            FilePath = commonmdl.Get_FilePath_OpenSave(this.SaveFileDialog1, "pzn");
+
+            if (FilePath.Length > 0)
+            {
+                Save_NumLogicData(FilePath);
+                System.IO.Directory.SetCurrentDirectory(System.IO.Path.GetDirectoryName(FilePath));
+
+            }
+
+        }
+        
 
     }
 }
