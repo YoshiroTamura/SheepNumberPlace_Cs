@@ -367,6 +367,13 @@ namespace SheepNumberPlace_Cs
             Menu_File_Load.Click += new EventHandler(Menu_File_Load_Click);
             Tool_File_Save.Click += new EventHandler(Menu_File_Save_Click);
             Menu_File_Save.Click += new EventHandler(Menu_File_Save_Click);
+
+            Tool_Reset.Click += new EventHandler(Tool_Reset_Click);
+            Tool_ResetAnswer.Click += new EventHandler(Tool_Reset_Click);
+            Menu_Reset.Click += new EventHandler(Tool_Reset_Click);
+            Menu_ResetAnswer.Click += new EventHandler(Tool_Reset_Click);
+
+            HintTimer.Tick += new EventHandler(HintTimer_Tick);
         }
 
 
@@ -635,9 +642,12 @@ namespace SheepNumberPlace_Cs
                             if (SudokuNumberGrid[i, j].MemoNo[n] > 0)
                             {
                                 e.Graphics.DrawString(Convert.ToString(Math.Abs(SudokuNumberGrid[i, j].MemoNo[n])), MemoFnt, memoBrush,
-                                           (float)(GridStartX + GridSize * (i - 1 + (((Math.Abs(SudokuNumberGrid[i, j].MemoNo[n]) - 1) % 3) * 2 + 1) / 6)),
-                                           (float)(GridStartY + GridSize * (j - 1 + (Math.Floor((decimal)((Math.Abs(SudokuNumberGrid[i, j].MemoNo[n]) - 1) / 3)) * 2 + 1) / 6) + 2),
+                                           (GridStartX + GridSize * (float)(i - 1 + (((Math.Abs(SudokuNumberGrid[i, j].MemoNo[n]) - 1) % 3) * 2 + 1) / 6.0)),
+                                           (GridStartY + GridSize * (float)(j - 1 + (Math.Floor((double)((Math.Abs(SudokuNumberGrid[i, j].MemoNo[n]) - 1) / 3)) * 2 + 1) / 6.0) + 2),
                                            sf);
+//                                (float)(GridStartX + GridSize * (i - 1 + (((Math.Abs(SudokuNumberGrid[i, j].MemoNo[n]) - 1) % 3) * 2 + 1) / 6)),
+//                                (float)(GridStartY + GridSize * (j - 1 + (Math.Floor((decimal)((Math.Abs(SudokuNumberGrid[i, j].MemoNo[n]) - 1) / 3)) * 2 + 1) / 6) + 2),
+
                             }
                         }
                     }
@@ -2536,14 +2546,16 @@ namespace SheepNumberPlace_Cs
                 {
                     if (memoflag == false) {
                         y++;
+                        //Debug.WriteLine(txtLines[j]);
                         for (i = 0; i < txtLines[j].Length; i++) {
-                            x++;
+                            x = i + 1;
                             if (x >= 1 && x <= GridCount && y >= 1 && y <= GridCount) {
                                 if (double.TryParse(txtLines[j].Substring(i, 1), out d)) {
-                                    SudokuNumberGrid[i, j].FixNo = Convert.ToInt32(txtLines[j].Substring(i, 1));
-                                    if (SudokuNumberGrid[i, j].FixNo > 0) {
+                                    //Debug.WriteLine("-----------------------" + Convert.ToInt32(x) + "," + Convert.ToInt32(y) + "------------------------------" + Convert.ToInt32(txtLines[j].Substring(i, 1)));
+                                    SudokuNumberGrid[x, y].FixNo = Convert.ToInt32(txtLines[j].Substring(i, 1));
+                                    if (SudokuNumberGrid[x, y].FixNo > 0) {
                                         if (workflag == false) {
-                                            SudokuNumberGrid[i, j].Locked = true;
+                                            SudokuNumberGrid[x, y].Locked = true;
                                         }
                                     }
                                 }
@@ -5847,7 +5859,28 @@ namespace SheepNumberPlace_Cs
             }
 
         }
-        
+
+
+        private void HintTimer_Tick(Object sender, EventArgs e) {
+            //Handles HintTimer.Tick
+
+            if (SolveHint.NoB == 0) {
+                SolveHint.NoB = SolveHint.No;
+            } else
+            {
+                SolveHint.NoB = 0;
+            }
+
+            this.PictureBoxGrid.Invalidate();
+
+            HintTimer.Tag = Convert.ToString(Convert.ToInt32(HintTimer.Tag) + 1);
+
+            if (Convert.ToInt32(HintTimer.Tag) >= 4) {
+                HintTimer.Stop();
+            }
+
+        }
+
 
     }
 }
