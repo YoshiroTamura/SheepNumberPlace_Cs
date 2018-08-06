@@ -31,6 +31,7 @@ namespace SheepNumberPlace_Cs
             Reset_ProspectNo();
         }
 
+
         public void Reset_ProspectNo()
         {
             int i;
